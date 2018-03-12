@@ -1405,11 +1405,11 @@ void rocksdb_writebatch_iterate(
       (*deleted_)(state_, key.data(), key.size());
     }
   };
-  H handler;
-  handler.state_ = state;
-  handler.put_ = put;
-  handler.deleted_ = deleted;
-  b->rep.Iterate(&handler);
+  H handler2;
+  handler2.state_ = state;
+  handler2.put_ = put;
+  handler2.deleted_ = deleted;
+  b->rep.Iterate(&handler2);
 }
 
 const char* rocksdb_writebatch_data(rocksdb_writebatch_t* b, size_t* size) {
@@ -1661,11 +1661,11 @@ void rocksdb_writebatch_wi_iterate(
       (*deleted_)(state_, key.data(), key.size());
     }
   };
-  H handler;
-  handler.state_ = state;
-  handler.put_ = put;
-  handler.deleted_ = deleted;
-  b->rep->GetWriteBatch()->Iterate(&handler);
+  H handler1;
+  handler1.state_ = state;
+  handler1.put_ = put;
+  handler1.deleted_ = deleted;
+  b->rep->GetWriteBatch()->Iterate(&handler1);
 }
 
 const char* rocksdb_writebatch_wi_data(rocksdb_writebatch_wi_t* b, size_t* size) {
@@ -2672,12 +2672,12 @@ rocksdb_filterpolicy_t* rocksdb_filterpolicy_create_bloom_format(int bits_per_ke
     }
     static void DoNothing(void*) { }
   };
-  Wrapper* wrapper = new Wrapper;
-  wrapper->rep_ = NewBloomFilterPolicy(bits_per_key, original_format);
-  wrapper->state_ = nullptr;
-  wrapper->delete_filter_ = nullptr;
-  wrapper->destructor_ = &Wrapper::DoNothing;
-  return wrapper;
+  Wrapper* wrapper1 = new Wrapper;
+  wrapper1->rep_ = NewBloomFilterPolicy(bits_per_key, original_format);
+  wrapper1->state_ = nullptr;
+  wrapper1->delete_filter_ = nullptr;
+  wrapper1->destructor_ = &Wrapper::DoNothing;
+  return wrapper1;
 }
 
 rocksdb_filterpolicy_t* rocksdb_filterpolicy_create_bloom_full(int bits_per_key) {
@@ -3118,11 +3118,11 @@ rocksdb_slicetransform_t* rocksdb_slicetransform_create_fixed_prefix(size_t pref
     bool InRange(const Slice& src) const override { return rep_->InRange(src); }
     static void DoNothing(void*) { }
   };
-  Wrapper* wrapper = new Wrapper;
-  wrapper->rep_ = rocksdb::NewFixedPrefixTransform(prefixLen);
-  wrapper->state_ = nullptr;
-  wrapper->destructor_ = &Wrapper::DoNothing;
-  return wrapper;
+  Wrapper* wrapper2 = new Wrapper;
+  wrapper2->rep_ = rocksdb::NewFixedPrefixTransform(prefixLen);
+  wrapper2->state_ = nullptr;
+  wrapper2->destructor_ = &Wrapper::DoNothing;
+  return wrapper2;
 }
 
 rocksdb_slicetransform_t* rocksdb_slicetransform_create_noop() {
@@ -3139,11 +3139,11 @@ rocksdb_slicetransform_t* rocksdb_slicetransform_create_noop() {
     bool InRange(const Slice& src) const override { return rep_->InRange(src); }
     static void DoNothing(void*) { }
   };
-  Wrapper* wrapper = new Wrapper;
-  wrapper->rep_ = rocksdb::NewNoopTransform();
-  wrapper->state_ = nullptr;
-  wrapper->destructor_ = &Wrapper::DoNothing;
-  return wrapper;
+  Wrapper* wrapper3 = new Wrapper;
+  wrapper3->rep_ = rocksdb::NewNoopTransform();
+  wrapper3->state_ = nullptr;
+  wrapper3->destructor_ = &Wrapper::DoNothing;
+  return wrapper3;
 }
 
 rocksdb_universal_compaction_options_t* rocksdb_universal_compaction_options_create() {
